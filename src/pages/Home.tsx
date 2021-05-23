@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import {TouchableOpacity, View} from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
@@ -12,7 +14,7 @@ interface Task {
 
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
-
+  const [theme, setTheme] = useState<boolean>(false)
   function handleAddTask(newTaskTitle: string) {
     
     const data = {
@@ -46,16 +48,18 @@ export function Home() {
   }
 
   return (
-    <>
-      <Header />
-
-      <TodoInput addTask={handleAddTask} />
-
+    <View style={{backgroundColor:theme? '#191622' : '#ffffff' ,flex:1}} >
+      <Header  theme={theme} />
+      <TodoInput addTask={handleAddTask} theme={theme}  />
+      <TouchableOpacity style={{marginHorizontal: 24,marginVertical:15}} onPress={()=>setTheme(!theme)} >
+        <Icon name={theme? 'toggle-switch-outline' : 'toggle-switch-off-outline'} size={50} color={theme? '#FF79C6' : '#3D3D4D'} />
+      </TouchableOpacity>
       <MyTasksList 
+        theme={theme}
         tasks={tasks} 
         onPress={handleMarkTaskAsDone} 
         onLongPress={handleRemoveTask} 
       />
-    </>
+    </View>
   )
 }

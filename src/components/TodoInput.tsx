@@ -5,9 +5,10 @@ import checkIcon from '../assets/icons/Check.png';
 
 interface TodoInputProps {
   addTask: (task: string) => void;
+  theme:boolean;
 }
 
-export function TodoInput({ addTask }: TodoInputProps) {
+export function TodoInput({ addTask,theme }: TodoInputProps) {
   const [task, setTask] = useState('');
   function handleAddNewTask() {
     addTask(task)
@@ -15,10 +16,11 @@ export function TodoInput({ addTask }: TodoInputProps) {
   }
 
   return (
-    <View style={[styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
+    <View style={[styles.inputContainer,{backgroundColor: theme? '#34313D' : '#F5F4F8' }, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
       <TextInput 
-        style={styles.input} 
+        style={[styles.input,{backgroundColor: theme? '#34313D' : '#F5F4F8',color:'#A09CB1' }]} 
         placeholder="Adicionar novo todo..."
+        placeholderTextColor={'#A09CB1'}
         returnKeyType="send"
         onChangeText={setTask}
         value={task}
@@ -27,7 +29,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
-        style={styles.addButton}
+        style={[styles.addButton,{backgroundColor: theme? '#988BC7' : '#3FAD27' }]}
         onPress={handleAddNewTask}
       >
         <Image source={checkIcon} />
@@ -38,7 +40,6 @@ export function TodoInput({ addTask }: TodoInputProps) {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: '#F5F4F8',
     borderRadius: 5,
     marginTop: -25,
     marginHorizontal: 40,
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: '#F5F4F8',
     paddingLeft: 12,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   addButton: {
-    backgroundColor: '#3FAD27',
     height: 50,
     paddingHorizontal: 16,
     justifyContent: 'center',
